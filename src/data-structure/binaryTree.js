@@ -90,6 +90,35 @@ export class BinarySearchTree {
     }
   };
 
+  getMin = () => {
+    // root maybe assin as null-like(null / undefined)
+    let min = this.root || {};
+    while (min.left) {
+      min = min.left;
+    }
+    return min;
+  };
+
+  getMax = () => {
+    let max = this.root || {};
+    while (max.right) {
+      max = max.right;
+    }
+    return max;
+  };
+
+  _getNodeData(node = {}, { min, max }) {
+    if (!node) {
+      node = this.root;
+    }
+    if (min && max) {
+      return [this.getMin(node).data, this.getMax(node).data];
+    } else if (min || max) {
+      return min ? this.getMin(node).data : this.getMax(node).data;
+    }
+    return node.data;
+  }
+
   // util
   print() {
     if (!this.root) {

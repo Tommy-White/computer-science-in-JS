@@ -10,6 +10,8 @@ binarySearchTree.insert(30);
 binarySearchTree.insert(10);
 binarySearchTree.insert(92);
 
+const eBST = new BinarySearchTree();
+
 function Wrapper(BST_Order) {
   let collect = [];
   BST_Order(binarySearchTree.root, node => {
@@ -56,4 +58,20 @@ test('BST postOrder', () => {
     81,
     56,
   ]);
+});
+
+test('BST get min', () => {
+  expect(binarySearchTree.getMin().data).toEqual(10);
+});
+
+test('BST get min data', () => {
+  expect(binarySearchTree._getNodeData(undefined, { min: true })).toEqual(10);
+});
+
+test('BST get max', () => {
+  expect(binarySearchTree.getMax().data).toEqual(92);
+});
+
+test('BST get max (empty BST)', () => {
+  expect(eBST.getMax().data).toEqual(undefined);
 });
