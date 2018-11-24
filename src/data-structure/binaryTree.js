@@ -23,7 +23,7 @@ export class BinarySearchTree {
     this.root = null;
   }
 
-  insert(data, left, right) {
+  insert = (data, left, right) => {
     let current;
     const node = new Node(data, left, right);
     this.root = this.root || node;
@@ -31,6 +31,7 @@ export class BinarySearchTree {
     current = this.root;
     while (current) {
       let { data } = node;
+      // priority: equal is put to the left.
       if (current.data < data) {
         // to the right
         if (!current.right) {
@@ -47,45 +48,69 @@ export class BinarySearchTree {
         current = current.left;
       }
     }
-  }
+  };
 
   /**
    * preOrder: First access the parent node and then access the left node and finally access the right node
    * @param  {node} node
    * @param  {Function} fn
    */
-  preOrder(node, fn) {
+  preOrder = (node, fn) => {
     if (node) {
       fn && fn(node);
       node.show();
       this.preOrder(node.left, fn);
       this.preOrder(node.right, fn);
     }
-  }
+  };
 
   /**
    * inOrder: First access the left node and then access then parent node and finally access the right node.
    * @param  {Node} node
    * @param  {Function} fn
    */
-  inOrder(node, fn) {
+  inOrder = (node, fn) => {
     if (node) {
       this.inOrder(node.left, fn);
       fn && fn(node);
       this.inOrder(node.right, fn);
     }
-  }
+  };
 
   /**
-   * postOrder: For priority access from the right node to the left node and finally access the parent node.
+   * postOrder: For priority access from the left node to the right node and finally access the parent node.
    * @param  {Node} node
    * @param  {Function} fn
    */
-  postOrder(node, fn) {
+  postOrder = (node, fn) => {
     if (node) {
       this.postOrder(node.left, fn);
       this.postOrder(node.right, fn);
       fn & fn(node);
     }
+  };
+
+  // util
+  print() {
+    if (!this.root) {
+      return console.log('No root node found');
+    }
+    const newline = new Node('|');
+    const queue = [this.root, newline];
+    let string = '';
+    while (queue.length) {
+      const node = queue.shift();
+      string += `${node.data.toString()} `;
+      if (node === newline && queue.length) {
+        queue.push(newline);
+      }
+      if (node.left) {
+        queue.push(node.left);
+      }
+      if (node.right) {
+        queue.push(node.right);
+      }
+    }
+    return string.slice(0, -2).trim();
   }
 }
