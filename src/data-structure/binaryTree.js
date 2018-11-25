@@ -107,7 +107,7 @@ export class BinarySearchTree {
     return max;
   };
 
-  _getNodeData(node = {}, { min, max }) {
+  _getNodeData = ({ min, max } = {}, node) => {
     if (!node) {
       node = this.root;
     }
@@ -117,7 +117,26 @@ export class BinarySearchTree {
       return min ? this.getMin(node).data : this.getMax(node).data;
     }
     return node.data;
-  }
+  };
+  /**
+   * @param  { any } data
+   * @param  { Node } node
+   */
+  find = (data, node) => {
+    if (!node) {
+      node = this.root;
+    }
+    while (node != null) {
+      if (node.data === data) {
+        return node;
+      } else if (node.data > data) {
+        node = node.left;
+      } else {
+        node = node.right;
+      }
+    }
+    return null;
+  };
 
   // util
   print() {
