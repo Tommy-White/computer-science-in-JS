@@ -65,7 +65,7 @@ test('BST get min', () => {
 });
 
 test('BST get min data', () => {
-  expect(binarySearchTree._getNodeData({ min: true })).toEqual(10);
+  expect(binarySearchTree.get({ min: true })).toEqual(10);
 });
 
 test('BST get max', () => {
@@ -82,4 +82,12 @@ test('find not exist node 100', () => {
 
 test('find exist node 77', () => {
   expect(binarySearchTree.find(77).data).toEqual(77);
+});
+
+test('contain exist node 77', () => {
+  expect(binarySearchTree.contains(77)).toBeTruthy();
+});
+
+test('remove 81', () => {
+  expect(binarySearchTree.remove(22).print()).toEqual('');
 });

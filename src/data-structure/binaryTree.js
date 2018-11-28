@@ -90,34 +90,27 @@ export class BinarySearchTree {
     }
   };
 
-  getMin = () => {
-    // root maybe assin as null-like(null / undefined)
-    let min = this.root || {};
-    while (min.left) {
-      min = min.left;
-    }
-    return min;
-  };
-
-  getMax = () => {
-    let max = this.root || {};
-    while (max.right) {
-      max = max.right;
-    }
-    return max;
-  };
-
-  _getNodeData = ({ min, max } = {}, node) => {
+  getMin = node => {
     if (!node) {
-      node = this.root;
+      // root maybe assin as null-like(null / undefined)
+      node = this.root || {};
     }
-    if (min && max) {
-      return [this.getMin(node).data, this.getMax(node).data];
-    } else if (min || max) {
-      return min ? this.getMin(node).data : this.getMax(node).data;
+    while (node.left) {
+      node = node.left;
     }
-    return node.data;
+    return node;
   };
+
+  getMax = node => {
+    if (!node) {
+      node = this.root || {};
+    }
+    while (node.right) {
+      node = node.right;
+    }
+    return node;
+  };
+
   /**
    * @param  { any } data
    * @param  { Node } node
@@ -138,6 +131,73 @@ export class BinarySearchTree {
     return null;
   };
 
+  /**
+   * @param  {any} data
+   * @param  {Node} node
+   */
+  contains = (data, node) => {
+    return !!this.find(data, node);
+  };
+
+  _extractData = (node, predicate) => {
+    return predicate ? node.data : node;
+  };
+
+  /**
+   * @param  {objec} option {min: bool, max: bool, extractData: bool, node: Node}
+   */
+  get = option => {
+    const { min, max, extractData = true, node = this.root } = option;
+    if (min && max) {
+      return [
+        this._extractData(this.getMin(node), extractData),
+        this._extractData(this.getMax(node), extractData),
+      ];
+    } else if (min || max) {
+      return min
+        ? this._extractData(this.getMin(node), extractData)
+        : this._extractData(this.getMax(node), extractData);
+    }
+    return this._extractData(node, extractData);
+  };
+
+  // to do: check
+  /**
+   * @param  {any} data
+   */
+  // remove =(data) => {
+  //   const that = this;
+  //   const removeNode = (node, data) => {
+  //     if(!node) {
+  //       return null;
+  //     }
+  //     if(data === node.data) {
+  //       if(!node.left && !node.right) {
+  //         return null;
+  //       }
+  //       if(!node.left) {
+  //         return node.right;
+  //       }
+  //       if(!node.right) {
+  //         return node.left;
+  //       }
+  //       // 2 children
+  //       const temp = that.getMin(node.right);
+  //       node.data = temp;
+  //       node.right = removeNode(node.right, temp);
+  //       return node;
+  //     } else if(data < node.data) {
+  //       node.left = removeNode(node.left, data);
+  //       return node;
+  //     } else {
+  //       node.right = removeNode(node.right, data);
+  //       return node;
+  //     }
+  //   };
+  //   this.root = removeNode(this.root, data);
+  //   return this;
+  // }
+
   // util
   print() {
     if (!this.root) {
@@ -148,7 +208,7 @@ export class BinarySearchTree {
     let string = '';
     while (queue.length) {
       const node = queue.shift();
-      string += `${node.data.toString()} `;
+      string += `${node.data ? node.data.toString() : '-'} `;
       if (node === newline && queue.length) {
         queue.push(newline);
       }
