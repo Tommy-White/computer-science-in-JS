@@ -89,5 +89,5 @@ test('contain exist node 77', () => {
 });
 
 test('remove 81', () => {
-  expect(binarySearchTree.remove(22).print()).toEqual('');
+  expect(binarySearchTree.remove(56).print()).toEqual('77 | 22 81 | 10 30 92');
 });
