@@ -1,4 +1,4 @@
-import Dictionary from '../../data-structure/dictionary';
+import Dictionary from '../../src/data-structure/dictionary';
 
 const dict = new Dictionary();
 

@@ -1,4 +1,4 @@
-import EventEmitter from '../design-pattern/observer/eventEmitter';
+import EventEmitter from '../src/design-pattern/observer/eventEmitter';
 
 test('emit test', () => {
   const collect = [];

@@ -1,4 +1,4 @@
-import { Node, BinarySearchTree } from '../../data-structure/binaryTree';
+import { Node, BinarySearchTree } from '../../src/data-structure/binaryTree';
 // const BST = require('../../data-structure/binaryTree')
 
 const binarySearchTree = new BinarySearchTree();
