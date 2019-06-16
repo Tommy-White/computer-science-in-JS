@@ -1,12 +1,8 @@
 export default class EventEmitter {
   listeners = [];
 
-  on(cb) {
-    if (typeof cb !== 'function') {
-      throw new Error(
-        `on expects to receive a function but instead: ${typeof cb}`
-      );
-    }
+  on = cb => {
+    this._onable(cb);
 
     this.listeners.push(cb);
 
@@ -16,9 +12,22 @@ export default class EventEmitter {
         this.listeners.splice(index, 1);
       }
     };
-  }
+  };
+
+  // once = cb => {
+  //   this._onable(cb);
+  //   // TODO
+  // }
 
   emit(data) {
     this.listeners.forEach(l => l(data));
   }
 }
+
+EventEmitter.prototype._onable = cb => {
+  if (typeof cb !== 'function') {
+    throw new Error(
+      `on expects to receive a function but instead: ${typeof cb}`
+    );
+  }
+};
