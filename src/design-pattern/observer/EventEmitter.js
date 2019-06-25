@@ -1,4 +1,14 @@
+const SYM_EMITTER_ONCE = Symbol('once');
+
 export default class EventEmitter {
+  // Experimental: simulate extends through new operate
+  // Do not simulate prototype relationships currently.
+  constructor(ext = {}) {
+    Object.keys(ext).forEach(k => {
+      this[k] = ext[k];
+    });
+  }
+
   listeners = [];
 
   on = cb => {
@@ -6,22 +16,30 @@ export default class EventEmitter {
 
     this.listeners.push(cb);
 
-    return () => {
-      const index = this.listeners.indexOf(cb);
-      if (index !== -1) {
-        this.listeners.splice(index, 1);
-      }
-    };
+    return () => this.off(cb);
   };
 
-  // once = cb => {
-  //   this._onable(cb);
-  //   // TODO
-  // }
+  off = cb => {
+    const index = this.listeners.indexOf(cb);
+    if (index !== -1) {
+      this.listeners.splice(index, 1);
+    }
+  };
 
-  emit(data) {
-    this.listeners.forEach(l => l(data));
-  }
+  once = cb => {
+    this._onable(cb);
+
+    cb[SYM_EMITTER_ONCE] = true;
+
+    this.listeners.push(cb);
+  };
+
+  emit = data => {
+    this.listeners.forEach(l => {
+      l(data);
+      l[SYM_EMITTER_ONCE] && this.off(l);
+    });
+  };
 }
 
 EventEmitter.prototype._onable = cb => {

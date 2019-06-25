@@ -48,3 +48,37 @@ test('unlistering test', () => {
   // Is there needs complete type assert?
   expect(collect).toEqual([1, 2]);
 });
+
+test('extends form EventEmitter', () => {
+  const collect = [];
+
+  class Sub extends EventEmitter {}
+  const subEmitter = new Sub();
+
+  const extEmitter = new EventEmitter({
+    pushToCollect: d => collect.push(d),
+  });
+
+  subEmitter.on(d => collect.push(d));
+  subEmitter.emit(1);
+
+  extEmitter.on(d => collect.push(d));
+  extEmitter.emit(1);
+  extEmitter.pushToCollect(1);
+
+  expect(collect).toEqual([1, 1, 1]);
+});
+
+test('EventEmitter use once', () => {
+  const collect = [];
+
+  const emitter = new EventEmitter();
+
+  emitter.once(d => collect.push(d));
+
+  for (let i = 0; i < 10; i++) {
+    emitter.emit(1);
+  }
+
+  expect(collect).toEqual([1]);
+});
