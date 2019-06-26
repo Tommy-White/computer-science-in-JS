@@ -36,6 +36,12 @@ function buildMaxHeap(tree, n) {
   }
 }
 
+/**
+ *
+ * Time complexity: [ avg: O(nlog(n)) | min: O(nlog(n)) | max: O(nlog(n)) ]
+ * Stability: no
+ *
+ */
 export default function heapSort(sour = [], n = sour.length) {
   const list = [...sour];
 
