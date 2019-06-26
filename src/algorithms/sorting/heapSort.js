@@ -48,12 +48,3 @@ export default function heapSort(sour = [], n = sour.length) {
 
   return list;
 }
-
-// const tree = [4, 10, 3, 5, 1, 2];
-const tree = [2, 5, 3, 1, 10, 4];
-const n = tree.length;
-// heapify(tree, n, 0);
-buildMaxHeap(tree, n);
-const re = heapSort(tree, n);
-// console.log(tree);
-console.log(re);
