@@ -10,7 +10,7 @@ export default function quickSort(list) {
     return list;
   }
 
-  const random = Math.floor(Math.random() * Math.floor(lens)); // [0, lens)
+  const random = (Math.random() * Math.floor(lens)) | 0; // [0, lens)
   const pivot = list[random];
 
   let left = []; // smaller

@@ -11,10 +11,6 @@ function swap(list, i, j) {
  * @param {number} i index
  */
 function heapify(tree = [], n, i) {
-  if (i >= n) {
-    return;
-  }
-
   let max = i;
   const c1 = 2 * i + 1;
   const c2 = 2 * i + 2;
