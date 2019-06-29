@@ -73,11 +73,11 @@ test('BST get max', () => {
 });
 
 test('BST get max (empty BST)', () => {
-  expect(eBST.getMax().data).toEqual(undefined);
+  expect(eBST.getMax()).toEqual(null);
 });
 
 test('find not exist node 100', () => {
-  expect(binarySearchTree.find(100)).toBeNull;
+  expect(binarySearchTree.find(100)).toEqual(null);
 });
 
 test('find exist node 77', () => {
@@ -88,6 +88,21 @@ test('contain exist node 77', () => {
   expect(binarySearchTree.contains(77)).toBeTruthy();
 });
 
-test('remove 81', () => {
-  expect(binarySearchTree.remove(56).print()).toEqual('77 | 22 81 | 10 30 92');
+test('remove node', () => {
+  expect(binarySearchTree.print()).toEqual('56 | 22 81 | 10 30 77 92');
+  expect(binarySearchTree.remove(81).print()).toEqual('56 | 22 92 | 10 30 77');
+
+  binarySearchTree.insert(23);
+  binarySearchTree.insert(40);
+  binarySearchTree.insert(35);
+  binarySearchTree.insert(45);
+  binarySearchTree.insert(42);
+  binarySearchTree.insert(46);
+
+  expect(binarySearchTree.print()).toEqual(
+    '56 | 22 92 | 10 30 77 | 23 40 | 35 45 | 42 46'
+  );
+  expect(binarySearchTree.remove(30).print()).toEqual(
+    '56 | 22 92 | 10 35 77 | 23 40 | 45 | 42 46'
+  );
 });

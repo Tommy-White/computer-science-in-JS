@@ -6,8 +6,8 @@
  */
 export function Node(data, left, right) {
   this.data = data;
-  this.left = left || null;
-  this.right = right || null;
+  this.left = left;
+  this.right = right;
   this.show = show;
 }
 
@@ -58,7 +58,6 @@ export class BinarySearchTree {
   preOrder = (node, fn) => {
     if (node) {
       fn && fn(node);
-      node.show();
       this.preOrder(node.left, fn);
       this.preOrder(node.right, fn);
     }
@@ -91,24 +90,20 @@ export class BinarySearchTree {
   };
 
   getMin = node => {
-    if (!node) {
-      // root maybe assin as null-like(null / undefined)
-      node = this.root || {};
+    let min = node || this.root;
+
+    while (min && min.left) {
+      min = min.left;
     }
-    while (node.left) {
-      node = node.left;
-    }
-    return node;
+    return min;
   };
 
   getMax = node => {
-    if (!node) {
-      node = this.root || {};
+    let max = node || this.root;
+    while (max && max.right) {
+      max = max.right;
     }
-    while (node.right) {
-      node = node.right;
-    }
-    return node;
+    return max;
   };
 
   /**
@@ -116,18 +111,18 @@ export class BinarySearchTree {
    * @param  { Node } node
    */
   find = (data, node) => {
-    if (!node) {
-      node = this.root;
-    }
-    while (node != null) {
-      if (node.data === data) {
-        return node;
-      } else if (node.data > data) {
-        node = node.left;
+    let current = node || this.root;
+
+    while (current) {
+      if (current.data === data) {
+        return current;
+      } else if (current.data > data) {
+        current = current.left;
       } else {
-        node = node.right;
+        current = current.right;
       }
     }
+
     return null;
   };
 
@@ -162,29 +157,28 @@ export class BinarySearchTree {
   };
 
   /**
-   * @param  {any} data
+   * @param  {any}
    */
   remove = data => {
-    // const that = this;
     const removeNode = (node, data) => {
       if (!node) {
-        return null;
+        return node;
       }
+
       if (data === node.data) {
         if (!node.left && !node.right) {
           return null;
-        }
-        if (!node.left) {
+        } else if (!node.left) {
           return node.right;
-        }
-        if (!node.right) {
+        } else if (!node.right) {
           return node.left;
+        } else {
+          // get the minimum node in right tree
+          const temp = this.getMin(node.right);
+          node.data = temp.data;
+          node.right = removeNode(node.right, temp.data);
+          return node;
         }
-        // 2 children
-        const temp = this.getMin(node.right);
-        node.data = temp.data;
-        node.right = removeNode(node.right, temp.data);
-        return node;
       } else if (data < node.data) {
         node.left = removeNode(node.left, data);
         return node;
@@ -193,7 +187,9 @@ export class BinarySearchTree {
         return node;
       }
     };
+
     this.root = removeNode(this.root, data);
+
     return this;
   };
 
