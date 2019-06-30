@@ -1,5 +1,3 @@
-import { eachDay } from 'date-fns';
-
 export default class Dictionary {
   constructor() {
     this.datastore = new Array();
