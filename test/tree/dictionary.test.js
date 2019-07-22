@@ -11,14 +11,14 @@ test('dictionary find sex', () => {
 });
 
 test('distionary original count', () => {
-  expect(dict.count()).toEqual(3);
+  expect(dict.getLength()).toEqual(3);
 });
 
 test('distionary count after remove 1 K-V', () => {
   expect(
     (() => {
       dict.remove('age');
-      return dict.count();
+      return dict.getLength();
     })()
   ).toEqual(2);
 });
